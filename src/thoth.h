@@ -14,9 +14,8 @@ namespace thoth {
 
         public:
             Integer(std::string data) {
-                for(auto l : data) {
+                for(auto l : data)
                     _data.push_front(l - _THOTH_ASCII_SHIFT);
-                }
             }
 
             void plus(Integer second) {
@@ -30,34 +29,23 @@ namespace thoth {
                     int bDigit = i < bLength ? second._data[i] : 0;
                     int tmp = aDigit + bDigit + overflow;
 
-                    if(tmp > 9) {
-                        if(i < aLength) {
-                            _data[i] = tmp % 10;
-                        } else {
-                            _data.push_back(tmp % 10);
-                        }
-
-                        overflow = tmp / 10;
+                    if(i < aLength) {
+                        _data[i] = tmp % 10;
                     } else {
-                        if(i < aLength) {
-                            _data[i] = tmp;
-                        } else {
-                            _data.push_back(tmp);
-                        }
-
-                        overflow = 0;
+                        _data.push_back(tmp % 10);
                     }
+
+                    overflow = tmp / 10;
                 }
-                if(overflow != 0) {
+
+                if(overflow != 0)
                     _data.push_back(overflow);
-                }
             };
 
             std::string toString() {
                 std::stringstream ss;
-                for(int i = _data.size() - 1; i >= 0; --i) {
+                for(int i = _data.size() - 1; i >= 0; --i)
                     ss << (char)(_data[i] + _THOTH_ASCII_SHIFT);
-                }
                 return ss.str();
             }
     };
