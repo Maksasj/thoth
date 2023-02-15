@@ -1,17 +1,5 @@
 project(Thoth)
 cmake_minimum_required(VERSION 3.0)
 
-add_executable(example example.cpp)
-
-
-# testing binary
-add_executable(cpp_test "test/test.cpp")
-
-# enable testing functionality
-enable_testing()
-
-# define tests
-add_test(
-  NAME cpp_test
-  COMMAND $<TARGET_FILE:cpp_test>
-  )
+add_subdirectory(examples)
+add_subdirectory(test)

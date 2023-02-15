@@ -1,2 +1,3 @@
 cmake --build build
-build\example
+
+build\examples\example_1

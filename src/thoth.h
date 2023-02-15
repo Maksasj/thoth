@@ -9,17 +9,17 @@
 #define _THOTH_ASCII_SHIFT 48
 
 namespace thoth {
-    class integer {
+    class Integer {
         std::deque<char> _data;
 
         public:
-            integer(std::string data) {
+            Integer(std::string data) {
                 for(auto l : data) {
                     _data.push_front(l - _THOTH_ASCII_SHIFT);
                 }
             }
 
-            void plus(integer second) {
+            void plus(Integer second) {
                 int aLength = _data.size();
                 int bLength = second._data.size();
                 int maxLength = std::max(aLength, bLength);
@@ -31,10 +31,20 @@ namespace thoth {
                     int tmp = aDigit + bDigit + overflow;
 
                     if(tmp > 9) {
-                        _data[i] = tmp % 10;
+                        if(i < aLength) {
+                            _data[i] = tmp % 10;
+                        } else {
+                            _data.push_back(tmp % 10);
+                        }
+
                         overflow = tmp / 10;
                     } else {
-                        _data[i] = tmp;
+                        if(i < aLength) {
+                            _data[i] = tmp;
+                        } else {
+                            _data.push_back(tmp);
+                        }
+
                         overflow = 0;
                     }
                 }

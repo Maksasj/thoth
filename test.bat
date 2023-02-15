@@ -1,3 +1,5 @@
-cd build
+cmake --build build
+
+cd build\test
 ctest
-cd ..
+cd ..\..

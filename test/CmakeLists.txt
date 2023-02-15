@@ -1,0 +1,12 @@
+project(ThothTests)
+cmake_minimum_required(VERSION 3.0)
+
+include_directories("../src")
+
+add_executable(test_1 test_1.cpp)
+add_executable(test_2 test_2.cpp)
+
+enable_testing()
+
+add_test(NAME IntegerSum COMMAND $<TARGET_FILE:test_1>)
+add_test(NAME ExtremeCases COMMAND $<TARGET_FILE:test_2>)
