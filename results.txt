@@ -1,0 +1,3 @@
+sqrt max error in range [1.0, 48.0]: 8.8817841970012523e-16
+sin max error in range [0.0, ~251.32]: 1.612815783702537e-11
+ln max error in range [1.01, 1000.0]: 8.4321438720280639e-14

@@ -5,3 +5,4 @@ include_directories("../src")
 
 add_executable(example_1 example_1.cpp)
 add_executable(example_2 example_2.cpp)
+add_executable(example_3 example_3.cpp)

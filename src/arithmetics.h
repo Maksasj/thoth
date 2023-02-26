@@ -14,7 +14,8 @@
 
 namespace thoth {
     namespace Math {
-        static inline double abs(double number) {
+        template<typename T>
+        static inline T abs(T number) {
             if(number < 0)
                 return (-1.0) * number;
 
@@ -37,25 +38,34 @@ namespace thoth {
         static inline double uroot(double number, unsigned int base) {
             double answ = 0.0;
 
+            bool isLessOne = false;
+            if(number < 1.0) {
+                isLessOne = true;
+                number = 1.0/number;
+            }
+
             double bottomBound = 0;
             double topBound = number;
-
+            
             for(int i = 0; i < _THOTH_SQRT_ITERATION_COUNT_; ++i) {
                 answ = ((topBound - bottomBound) / 2.0) + bottomBound;
                 double tmpPower = upow(answ, base);
-
+            
                 if(tmpPower < number) {
                     bottomBound = answ;
                 } else if(tmpPower > number) {
                     topBound = answ;
-                } else return answ;
+                }
             }
+
+            if(isLessOne)
+                answ = 1.0/answ;
 
             return answ;
         };
 
         static inline double sqrt(double number) {
-            if(number < 0) throw std::invalid_argument("thoth::Math::qsrt goth negative number as an argument");
+            if(number < 0) throw std::invalid_argument("thoth::Math::sqrt goth negative number as an argument");
 
             return uroot(number, 2);
         }

@@ -24,5 +24,14 @@ int main() {
         }
     }
 
+    TEST_CASE {
+        for(double i = 0.0; i < 1.0; i += 0.001) {
+            double thothAnsw = Math::sqrt(i);
+            double cmathAnsw = sqrt(i); 
+
+            ensure(Math::abs(thothAnsw - cmathAnsw) < _MAX_ERROR_);
+        }
+    }
+
     return 0;
 }
