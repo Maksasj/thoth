@@ -2,6 +2,7 @@
 #define _THOTH_ARITHMETICS_H_
 
 #include <exception>
+#include <stdexcept>
 
 #define _THOTH_CONSTANT_PI_  3.14159265359
 #define _THOTH_CONSTANT_E_   2.71828182845
