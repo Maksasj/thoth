@@ -2,7 +2,6 @@
 #define _THOTH_ARITHMETICS_H_
 
 #include <exception>
-#include <iostream>
 
 #define _THOTH_CONSTANT_PI_  3.14159265359
 #define _THOTH_CONSTANT_E_   2.71828182845
@@ -120,7 +119,6 @@ namespace thoth {
 
         static inline double sin(double number) {
             int circles = number / (_THOTH_CONSTANT_PI_ * 2);
-            std::cout << circles << "\n";
             number -= circles * (_THOTH_CONSTANT_PI_ * 2);
 
             double term = number, sinx = term, denominator;
