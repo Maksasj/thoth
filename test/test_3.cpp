@@ -8,11 +8,12 @@ int main() {
     TEST_CASE {
         Integer a("0");
         Integer b("1");
+        Integer c("0");
 
         for(int i = 0; i < 2000; ++i) {
-            ensure(a.toString() == std::to_string(i));
-            
-            a.plus(b);
+            ensure(c.toString() == std::to_string(i));
+
+            c = a + b;
         }
     }
 

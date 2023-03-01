@@ -7,8 +7,10 @@ int main() {
         thoth::Integer b("1");
         std::cout << a.toString() << "\n";
         std::cout << b.toString() << "\n";
-        a.plus(b);
-        std::cout << a.toString() << "\n";
+
+        thoth::Integer c = a + b;
+
+        std::cout << c.toString() << "\n";
     }
 
     std::cout << "==============\n";
@@ -18,8 +20,10 @@ int main() {
         thoth::Integer b("49858496485684564896548956848511116");
         std::cout << a.toString() << "\n";
         std::cout << b.toString() << "\n";
-        a.plus(b);
-        std::cout << a.toString() << "\n";
+
+        thoth::Integer c = a + b;
+
+        std::cout << c.toString() << "\n";
     }
 
     return 0;

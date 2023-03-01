@@ -9,63 +9,63 @@ int main() {
         Integer a("1");
         Integer b("1");
 
-        a.plus(b);
+        Integer c = a + b;
 
-        ensure(a.toString() == "2");
+        ensure(c.toString() == "2");
     }
 
     TEST_CASE {
         Integer a("2");
         Integer b("1");
 
-        a.plus(b);
+        Integer c = a + b;
 
-        ensure(a.toString() == "3");
+        ensure(c.toString() == "3");
     }
 
     TEST_CASE {
         Integer a("2");
         Integer b("2");
 
-        a.plus(b);
+        Integer c = a + b;
 
-        ensure(a.toString() == "4");
+        ensure(c.toString() == "4");
     }
 
     TEST_CASE {
         Integer a("9");
         Integer b("1");
 
-        a.plus(b);
+        Integer c = a + b;
 
-        ensure(a.toString() == "10");
+        ensure(c.toString() == "10");
     }
 
     TEST_CASE {
         Integer a("999");
         Integer b("999");
 
-        a.plus(b);
+        Integer c = a + b;
 
-        ensure(a.toString() == "1998");
+        ensure(c.toString() == "1998");
     }
 
     TEST_CASE {
         Integer a("999");
         Integer b("1");
 
-        a.plus(b);
+        Integer c = a + b;
 
-        ensure(a.toString() == "1000");
+        ensure(c.toString() == "1000");
     }
 
     TEST_CASE {
         Integer a("1");
         Integer b("999");
 
-        a.plus(b);
+        Integer c = a + b;
 
-        ensure(a.toString() == "1000");
+        ensure(c.toString() == "1000");
     }
 
     return 0;
