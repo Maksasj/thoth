@@ -215,9 +215,15 @@ bool thoth::Integer::operator>(const Integer &second) const {
     }
 
     if(_data.size() < second._data.size()) {
-        return false;
+        if(inverse) {
+            return true;
+        } else
+            return false;
     } else if(_data.size() > second._data.size()) {        
-        return true;
+        if(inverse) {
+            return false;
+        } else
+            return true;
     } else {
         if(_data.size() > 1) {
             for(int i = _data.size() - 1; i >= 0; --i) {

@@ -10,9 +10,18 @@ target_link_libraries(test_double_op_less_more thoth)
 add_executable(test_double_op_equal_or_less_more test_double_op_equal_or_less_more.cpp)
 target_link_libraries(test_double_op_equal_or_less_more thoth)
 
+add_executable(test_double_op_less_oskar test_double_op_less_oskar.cpp)
+target_link_libraries(test_double_op_less_oskar thoth)
+
+add_executable(test_double_op_more_oskar test_double_op_more_oskar.cpp)
+target_link_libraries(test_double_op_more_oskar thoth)
+
 enable_testing()
 
 add_test(NAME DoubleOpEqual COMMAND $<TARGET_FILE:test_double_op_equal>)
 add_test(NAME DoubleOpNotEqual COMMAND $<TARGET_FILE:test_double_op_not_equal>)
 add_test(NAME DoubleOpLessMore COMMAND $<TARGET_FILE:test_double_op_less_more>)
 add_test(NAME DoubleOpEqualOrLessMore COMMAND $<TARGET_FILE:test_double_op_equal_or_less_more>)
+
+add_test(NAME DoubleOpLessOskar COMMAND $<TARGET_FILE:test_double_op_less_oskar>)
+add_test(NAME DoubleOpMoreOskar COMMAND $<TARGET_FILE:test_double_op_more_oskar>)

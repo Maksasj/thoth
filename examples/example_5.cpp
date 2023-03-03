@@ -32,7 +32,6 @@ int main() {
 
         std::cout << (a > b) << "\n";
     }
-*/
     {
         thoth::Double a("1");
         thoth::Double b("0.1");
@@ -47,6 +46,94 @@ int main() {
         std::cout << (b < a) << "\n";
     }
 
+
+    {
+        thoth::Double a("1");
+        thoth::Double b("0.1");
+
+        std::cout << (a > b) << "\n";
+        std::cout << (b > a) << "\n";
+    }
+
+    {
+        thoth::Double a("2700.0");
+        thoth::Double b("72.0");
+
+        //std::cout << a.toString() << "\n";
+        //std::cout << b.toString() << "\n";
+
+        std::cout << (a > b) << "\n";
+        //std::cout << (b > a) << "\n";
+    }
+
+    {
+        thoth::Double a("-1.157412");
+        thoth::Double b("-10.4165841");
+
+        std::cout << (a > b) << "\n";
+    }
+    */
+
+    {
+        thoth::Double a("0.001");
+        thoth::Double b("0.00001");
+        bool value = (a > b);
+        std::cout << "G: '"<< value << "', E: '" << (0.001 > 0.00001) << "\n";
+    }
+
+    {
+        thoth::Double a("-1.0001");
+        thoth::Double b("-10.00001");
+
+        bool value = (a > b);
+        std::cout << "G: '"<< value << "', E: '" << (-1.0001 > -10.00001) << "\n";
+    }
+
+    {
+        thoth::Double a("10.00001");
+        thoth::Double b("1.0001");
+
+        bool value = (a > b);
+        std::cout << "G: '"<< value << "', E: '" << (10.00001 > 1.0001) << "\n";
+    }
+
+    {
+        thoth::Double a("1");
+        thoth::Double b("0.1");
+
+       bool value = (a > b);
+        std::cout << "G: '"<< value << "', E: '" << (1 > 0.1) << "\n";
+    }
+
+    {
+        thoth::Double a("-1.000001");
+        thoth::Double b("-1.00001");
+
+        bool value = (a > b);
+        std::cout << "G: '"<< value << "', E: '" << (-1.000001 > -1.00001) << "\n";
+    }
+
+    {
+        thoth::Double a("-1.00001");
+        thoth::Double b("-1.000001");
+
+        bool value = (a < b);
+        std::cout << "G: '"<< value << "', E: '" << (-1.00001 < -1.000001) << "\n";
+    }
+
+    {
+        thoth::Double a("-1.00001");
+        thoth::Double b("-1.0001");
+        bool value = (a < b);
+        std::cout << "G: '"<< value << "', E: '" << (-1.00001 < -1.0001) << "\n";
+    }
+
+    {
+        thoth::Double a("72.0");
+        thoth::Double b("2700.0");
+        bool value = (a > b);
+        std::cout << "G: '"<< value << "', E: '" << (72.0 > 2700.0) << "\n";
+    }
 
     return 0;
 }

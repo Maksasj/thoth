@@ -63,9 +63,9 @@ int main() {
         Double a("1");
         Double b("0.1");
 
+        ensure(a > b == true);
         ensure(a >= b == true);
     }
-
     TEST_CASE {
         Double a("1.0");
         Double b("0.1");

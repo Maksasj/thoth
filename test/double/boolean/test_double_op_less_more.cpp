@@ -14,7 +14,6 @@ int main() {
         ensure(b < a == true);
         ensure(b > a == false);
     }
-
     TEST_CASE {
         Double a("1");
         Double b("0");
@@ -155,6 +154,5 @@ int main() {
 
         ensure(a < b == true);
     }
-
     return 0;
 }

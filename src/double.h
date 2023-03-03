@@ -21,6 +21,10 @@ namespace thoth {
             }
         }
 
+        int len() const {
+            return _data.size();   
+        }
+
         public:
             Double();
             Double(std::string data);
