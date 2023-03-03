@@ -4,5 +4,16 @@ cmake_minimum_required(VERSION 3.0)
 include_directories("../src")
 
 add_executable(example_1 example_1.cpp)
+target_link_libraries(example_1 thoth)
+
 add_executable(example_2 example_2.cpp)
+target_link_libraries(example_2 thoth)
+
 add_executable(example_3 example_3.cpp)
+target_link_libraries(example_3 thoth)
+
+add_executable(example_4 example_4.cpp)
+target_link_libraries(example_4 thoth)
+
+add_executable(example_5 example_5.cpp)
+target_link_libraries(example_5 thoth)

@@ -1,0 +1,17 @@
+include_directories("../../src")
+include_directories("../")
+
+add_executable(test_sqrt test_sqrt.cpp)
+target_link_libraries(test_sqrt thoth)
+
+add_executable(test_sin test_sin.cpp)
+target_link_libraries(test_sin thoth)
+
+add_executable(test_ln test_ln.cpp)
+target_link_libraries(test_ln thoth)
+
+enable_testing()
+
+add_test(NAME ArithmeticsSqrt COMMAND $<TARGET_FILE:test_sqrt>)
+add_test(NAME ArithmeticsSin COMMAND $<TARGET_FILE:test_sin>)
+add_test(NAME ArithmeticsLn COMMAND $<TARGET_FILE:test_ln>)

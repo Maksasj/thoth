@@ -1,57 +1,52 @@
 #ifndef _THOTH_INTEGER_H_
 #define _THOTH_INTEGER_H_
 
+#include <vector>
 #include <deque>
 #include <string>
 #include <sstream>
 #include <iostream>
+#include <algorithm>
+#include <iomanip>
+
+#include "arithmetics.h"
 
 #define _THOTH_ASCII_SHIFT 48
 
 namespace thoth {
     class Integer {
-        std::deque<char> _data;
+        protected:
+            std::deque<char> _data;
 
+            // true -> positive 
+            // false -> negative 
+            bool sign; 
+
+            Integer _plus(const Integer &first, const Integer &second);
+            Integer _minus(const Integer &first, const Integer &second);
+            Integer abs() const;
         public:
-            Integer(std::string data) {
-                for(auto l : data)
-                    _data.push_front(l - _THOTH_ASCII_SHIFT);
-            }
+            Integer();
+            Integer(void*);
+            Integer(std::string data);
 
-            Integer operator+(const Integer &second) {
-                int aLength = _data.size();
-                int bLength = second._data.size();
-                int maxLength = std::max(aLength, bLength);
-                int overflow = 0;
+            bool isPositive() const;
 
-                for(int i = 0; i < maxLength; ++i) {
-                    int aDigit = i < aLength ? _data[i] : 0;
-                    int bDigit = i < bLength ? second._data[i] : 0;
-                    int tmp = aDigit + bDigit + overflow;
+            Integer operator+(const Integer &second);
+            Integer operator-(const Integer &second);
+            //Integer operator*(const Integer &second);
+            
+            //Integer operator/(const Integer &second);
+            //Integer operator%(const Integer &second);
 
-                    if(i < aLength) {
-                        _data[i] = tmp % 10;
-                    } else {
-                        _data.push_back(tmp % 10);
-                    }
+            bool operator<(const Integer &second)   const;
+            bool operator<=(const Integer &second)  const;
+            bool operator>(const Integer &second)   const;
+            bool operator>=(const Integer &second)  const;
+            bool operator==(const Integer &second)  const;
+            bool operator!=(const Integer &second)  const;
 
-                    overflow = tmp / 10;
-                }
-
-                if(overflow != 0)
-                    _data.push_back(overflow);
-                
-                Integer i = *this;
-
-                return i;
-            };
-
-            std::string toString() const {
-                std::stringstream ss;
-                for(int i = _data.size() - 1; i >= 0; --i)
-                    ss << (char)(_data[i] + _THOTH_ASCII_SHIFT);
-                return ss.str();
-            }
+            std::string toString() const;
     };
 };
 

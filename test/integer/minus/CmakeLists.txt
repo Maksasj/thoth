@@ -1,0 +1,14 @@
+add_executable(test_minus test_minus.cpp)
+target_link_libraries(test_minus thoth)
+
+add_executable(test_big_minus test_big_minus.cpp)
+target_link_libraries(test_big_minus thoth)
+
+add_executable(test_minus_oskar test_minus_oskar.cpp)
+target_link_libraries(test_minus_oskar thoth)
+
+enable_testing()
+
+add_test(NAME IntegerMinus COMMAND $<TARGET_FILE:test_minus>)
+add_test(NAME IntegerBigMinus COMMAND $<TARGET_FILE:test_big_minus>)
+add_test(NAME IntegerMinusOskar COMMAND $<TARGET_FILE:test_minus_oskar>)

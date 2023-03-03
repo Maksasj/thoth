@@ -1,0 +1,18 @@
+add_executable(test_double_op_equal test_double_op_equal.cpp)
+target_link_libraries(test_double_op_equal thoth)
+
+add_executable(test_double_op_not_equal test_double_op_not_equal.cpp)
+target_link_libraries(test_double_op_not_equal thoth)
+
+add_executable(test_double_op_less_more test_double_op_less_more.cpp)
+target_link_libraries(test_double_op_less_more thoth)
+
+add_executable(test_double_op_equal_or_less_more test_double_op_equal_or_less_more.cpp)
+target_link_libraries(test_double_op_equal_or_less_more thoth)
+
+enable_testing()
+
+add_test(NAME DoubleOpEqual COMMAND $<TARGET_FILE:test_double_op_equal>)
+add_test(NAME DoubleOpNotEqual COMMAND $<TARGET_FILE:test_double_op_not_equal>)
+add_test(NAME DoubleOpLessMore COMMAND $<TARGET_FILE:test_double_op_less_more>)
+add_test(NAME DoubleOpEqualOrLessMore COMMAND $<TARGET_FILE:test_double_op_equal_or_less_more>)

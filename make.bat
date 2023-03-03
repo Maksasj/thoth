@@ -1,3 +1,5 @@
+@ECHO OFF
+
 cmake --build build
 
-build\examples\example_3
+build\examples\example_5

@@ -1,0 +1,18 @@
+add_executable(test_sum test_sum.cpp)
+target_link_libraries(test_sum thoth)
+
+add_executable(test_big_sum test_big_sum.cpp)
+target_link_libraries(test_big_sum thoth)
+
+add_executable(test_brute_force test_brute_force.cpp)
+target_link_libraries(test_brute_force thoth)
+
+add_executable(test_sum_oskar test_sum_oskar.cpp)
+target_link_libraries(test_sum_oskar thoth)
+
+enable_testing()
+
+add_test(NAME IntegerSum COMMAND $<TARGET_FILE:test_sum>)
+add_test(NAME IntegeSumExtremeCases COMMAND $<TARGET_FILE:test_big_sum>)
+add_test(NAME IntegeSumBruteForce COMMAND $<TARGET_FILE:test_brute_force>)
+add_test(NAME IntegeSumOskarTests COMMAND $<TARGET_FILE:test_sum_oskar>)
