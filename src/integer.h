@@ -21,9 +21,28 @@ namespace thoth {
             // true -> positive 
             // false -> negative 
             bool sign; 
+            
+            int len() const {
+                return _data.size();   
+            }
+
+            void expandFront(unsigned int howMuch) {
+                while (howMuch > 0) {
+                    _data.push_front(0);
+                    --howMuch;
+                }
+            }
+
+            void expandBack(unsigned int howMuch) {
+                while (howMuch > 0) {
+                    _data.push_back(0);
+                    --howMuch;
+                }
+            }
 
             Integer _plus(const Integer &first, const Integer &second);
             Integer _minus(const Integer &first, const Integer &second);
+            Integer _multy(const Integer &first, const Integer &second);
             Integer abs() const;
         public:
             Integer();
@@ -34,7 +53,7 @@ namespace thoth {
 
             Integer operator+(const Integer &second);
             Integer operator-(const Integer &second);
-            //Integer operator*(const Integer &second);
+            Integer operator*(const Integer &second);
             
             //Integer operator/(const Integer &second);
             //Integer operator%(const Integer &second);

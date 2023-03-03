@@ -50,13 +50,7 @@ std::string thoth::Double::toString() const {
     return ss.str();
 }
 
-
 bool thoth::Double::operator>(const Double &second) const {
-    std::cout << "\n";
-    std::cout << this->toString() << " > " << second.toString() << "\n";
-    std::cout << "    " << this->toString() << " " << this->power << "\n";
-    std::cout << "    " << second.toString() << " " << second.power << "\n";
-
     if(!sign) {
         if(second.sign) return false;
     } else {
@@ -67,9 +61,6 @@ bool thoth::Double::operator>(const Double &second) const {
     if(sign == false && second.sign == false) {
         inverse = true;
     }
-
-    //if(power < second.power) return false;
-    //if(power > second.power) return true;
 
     Double self = *this; 
     Double another = second; 
@@ -123,45 +114,6 @@ bool thoth::Double::operator>(const Double &second) const {
         }
     }
 
-    /*
-    if(power != second.power) {
-        if(self.len() < second.len()) {
-            if(power < second.power) {
-                if(inverse) {
-                    self.expandFront(second.len() -  self.len()); 
-                } else
-                    self.expandBack(second.len() -  self.len()); 
-            } else {
-                if(inverse) {
-                    self.expandBack(second.len() -  self.len()); 
-                } else
-                    self.expandFront(second.len() -  self.len()); 
-            }
-        } else {
-            if(power < second.power) {
-                if(inverse) {
-                    another.expandFront(self.len() - second.len()); 
-                } else
-                    another.expandBack(self.len() - second.len()); 
-            } else {
-                if(inverse) {
-                    another.expandBack(self.len() - second.len()); 
-                } else
-                    another.expandFront(self.len() - second.len()); 
-            }
-        }
-    } else {
-        if(self.len() < second.len()) {
-            self.expandFront(second.len() -  self.len());
-        } else if(self.len() > second.len()) {
-            another.expandBack(self.len() - second.len());
-        }
-    }
-    */
-
-    std::cout << self.toString() << "\n";
-    std::cout << another.toString() << "\n";
-
     if(self.len() > 1) {
         for(int i = self.len() - 1; i >= 0; --i) {
             if(inverse == false) {
@@ -188,86 +140,6 @@ bool thoth::Double::operator>(const Double &second) const {
 
     return false;
 }
-
-
-/*
-bool thoth::Double::operator>(const Double &second) const {
-    std::cout << "\n";
-    std::cout << this->toString() << " > " << second.toString() << "\n";
-    std::cout << "    " << this->toString() << " " << this->power << "\n";
-    std::cout << "    " << second.toString() << " " << second.power << "\n";
-
-    if(!sign) {
-        if(second.sign) return false;
-    } else {
-        if(!second.sign) return true;
-    }
-
-    bool inverse = false;
-    if(sign == false && second.sign == false) {
-        inverse = true;
-    }
-
-    //if(power < second.power) return false;
-    //if(power > second.power) return true;
-
-    Double self = *this; 
-    Double another = second; 
-    
-    if(power != second.power) {
-        if(power < second.power) {
-            if(self.len() < second.len()) {
-                self.expandFront(second.len() -  self.len());
-            } else if(self.len() > second.len()) {
-                std::cout << "MARKER \n";
-                another.expandBack(self.len() - second.len());
-            }
-        } else {
-            if(self.len() < second.len()) {
-                self.expandFront(second.len() -  self.len());
-            } else if(self.len() > second.len()) {
-                another.expandBack(self.len() - second.len());
-            }
-        }
-    } else {
-        if(self.len() < second.len()) {
-            self.expandFront(second.len() -  self.len());
-        } else if(self.len() > second.len()) {
-            another.expandBack(self.len() - second.len());
-        }
-    }
-
-    std::cout << self.toString() << "\n";
-    std::cout << another.toString() << "\n";
-
-    if(self.len() > 1) {
-        for(int i = self.len() - 1; i >= 0; --i) {
-            if(inverse == false) {
-                if(self._data[i] > another._data[i]) {
-                    return true;
-                } else if(self._data[i] < another._data[i]) {
-                    return false;
-                }
-            } else {
-                if(self._data[i] < another._data[i]) {
-                    return true;
-                } else if(self._data[i] > another._data[i]) {
-                    return false;
-                }
-            }
-        }
-    } else {
-        if(inverse == false) {
-            return self._data[0] > another._data[0];
-        } else {
-            return self._data[0] < another._data[0];
-        }
-    }
-
-    return false;
-}
-
-*/
 
 bool thoth::Double::operator<(const Double &second) const {
     return (second > *this);

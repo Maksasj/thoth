@@ -83,6 +83,46 @@ thoth::Integer thoth::Integer::_minus(const Integer &first, const thoth::Integer
     return out;
 };
 
+thoth::Integer thoth::Integer::_multy(const Integer &first, const Integer &second) {
+    Integer out;
+    out._data.clear();
+
+    int aLength = first._data.size();
+
+    int bLength = second._data.size();
+    
+    int maxLength = std::max(aLength, bLength);
+    int overflow = 0;
+    
+    for(int i = 0; i < maxLength; ++i) {
+        int aDigit = i < aLength ? first._data[i] : 0;
+        if(aDigit == 0) continue;
+        
+        Integer tmpInteger;
+        tmpInteger._data.clear();
+
+        overflow = 0;
+        for(int j = 0; j < maxLength; ++j) {
+            int bDigit = j  < bLength ? second._data[j] : 0;
+            if(j > bLength) break;
+
+            int tmp = aDigit * bDigit + overflow;
+            tmpInteger._data.push_back(tmp % 10);
+
+            overflow = tmp / 10;
+        }
+
+        if(overflow != 0) {
+            tmpInteger._data.push_back(overflow);
+        }
+        
+        tmpInteger.expandFront(i);
+        out = out +  tmpInteger;
+    }
+
+    return out;
+}
+
 /* Operations methods */
 thoth::Integer thoth::Integer::operator+(const Integer &second) {
     /*
@@ -184,6 +224,12 @@ thoth::Integer thoth::Integer::operator-(const Integer &second) {
 
     return out;
 };
+
+thoth::Integer thoth::Integer::operator*(const Integer &second) {
+    Integer out = _multy(*this, second);
+
+    return out;
+}
 
 /* Helper methods */
 std::string thoth::Integer::toString() const {

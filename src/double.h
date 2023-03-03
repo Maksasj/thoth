@@ -7,24 +7,6 @@ namespace thoth {
     class Double : public Integer {
         int power;
 
-        void expandFront(unsigned int howMuch) {
-            while (howMuch > 0) {
-                _data.push_front(0);
-                --howMuch;
-            }
-        }
-
-        void expandBack(unsigned int howMuch) {
-            while (howMuch > 0) {
-                _data.push_back(0);
-                --howMuch;
-            }
-        }
-
-        int len() const {
-            return _data.size();   
-        }
-
         public:
             Double();
             Double(std::string data);
