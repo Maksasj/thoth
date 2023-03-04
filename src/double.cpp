@@ -36,7 +36,8 @@ std::string thoth::Double::toString() const {
 
     Double self = *this;
 
-    self.trimZeros();
+    self.trimZerosFront();
+    self.trimZerosBack();
 
     if(self._data.size() == 1) {
         if(self._data[0] == 0) {
@@ -91,9 +92,6 @@ thoth::Double thoth::Double::operator+(const Double &second) {
     int decimalPartSelfDigitCount = self.len() - integralPartSelfDigitCount;
     int decimalPartAnotherDigitCount = another.len() - integralPartAnotherDigitCount;
 
-    std::cout << integralPartSelfDigitCount << " " << decimalPartSelfDigitCount << "\n";
-    std::cout << integralPartAnotherDigitCount << " " << decimalPartAnotherDigitCount << "\n";
-
     if(decimalPartSelfDigitCount < decimalPartAnotherDigitCount) {
         self.expandFront(decimalPartAnotherDigitCount - decimalPartSelfDigitCount);
     }
@@ -103,9 +101,6 @@ thoth::Double thoth::Double::operator+(const Double &second) {
     }
     
     out.power = std::min(self.power, another.power);
-
-    std::cout << self.toString(true) << "\n";
-    std::cout << another.toString(true) << "\n";
 
     if(self.isPositive() && another.isPositive()) {
         out._data = Integer::_plus(self, another);
@@ -134,7 +129,7 @@ thoth::Double thoth::Double::operator+(const Double &second) {
             } else 
                 out._data = _minus(self, another);
         } else {
-            out.trimZeros();
+            out.trimZerosFront();
             return out;
         }
 
@@ -143,7 +138,83 @@ thoth::Double thoth::Double::operator+(const Double &second) {
         }
     }
 
-    std::cout << out.toString(true) << " "<< out.power << " " << out.toString() <<  "\n";
+    return out;
+};
+
+thoth::Double thoth::Double::operator-(const Double &second) {
+    Double out;
+
+    Double self = *this;
+    Double another = second;
+
+    bool inverse = false;
+    if((self.power == false) && (another.power == false)) {
+        inverse = true;
+    }
+
+    int integralPartSelfDigitCount = self.len() + self.power;
+    int integralPartAnotherDigitCount = another.len() + another.power;
+
+    int decimalPartSelfDigitCount = self.len() - integralPartSelfDigitCount;
+    int decimalPartAnotherDigitCount = another.len() - integralPartAnotherDigitCount;
+
+    if(decimalPartSelfDigitCount < decimalPartAnotherDigitCount) {
+        self.expandFront(decimalPartAnotherDigitCount - decimalPartSelfDigitCount);
+    }
+
+    if(decimalPartSelfDigitCount > decimalPartAnotherDigitCount) {
+        another.expandFront(decimalPartSelfDigitCount - decimalPartAnotherDigitCount);
+    }
+
+    out.power = std::min(self.power, another.power);
+
+    if(self.isPositive() && another.isPositive()) {
+        Integer selfAbs = self.abs(); 
+        Integer anotherAbs = another.abs(); 
+                
+        std::cout << selfAbs.toString() << "\n";
+        std::cout << anotherAbs.toString() << "\n";
+
+        if(selfAbs > anotherAbs) {
+            out._data = _minus(selfAbs, anotherAbs, false);
+        } else if(anotherAbs > selfAbs) {
+            out._data = _minus(anotherAbs, selfAbs, false);
+            out.sign = false;
+        } else {
+            return out;
+        }
+
+        if(out.len() + out.power == 0) {
+            out._data.push_back(0);
+        }
+    } else if(!self.isPositive() && !another.isPositive()) {
+        Integer selfAbs = self.abs(); 
+        Integer anotherAbs = another.abs(); 
+
+        if(selfAbs > anotherAbs) {
+            out._data = _minus(selfAbs, anotherAbs);
+            out.sign = false;
+        } else if(anotherAbs > selfAbs) {
+            out._data = _minus(anotherAbs, selfAbs);
+        } else {
+            return out;
+        } 
+
+        if(out.len() + out.power == 0) {
+            out._data.push_back(0);
+        }
+    } else if(!self.isPositive() && another.isPositive()) {
+        Integer selfAbs = self.abs(); 
+        Integer anotherAbs = another.abs(); 
+
+        out._data = _plus(selfAbs, anotherAbs);
+        out.sign = false;
+    } else if(self.isPositive() && !another.isPositive()) {
+        Integer selfAbs = self.abs(); 
+        Integer anotherAbs = another.abs(); 
+
+        out._data = _plus(selfAbs, anotherAbs);
+    }
 
     return out;
 };

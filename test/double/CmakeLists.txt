@@ -1,3 +1,4 @@
 add_subdirectory(parsing)
-add_subdirectory(sum)
 add_subdirectory(boolean)
+add_subdirectory(sum)
+add_subdirectory(minus)

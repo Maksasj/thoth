@@ -40,8 +40,14 @@ namespace thoth {
                 }
             }
 
+            void trimZerosBack() {
+                while (!_data.empty() && _data.back() == 0) {
+                    _data.pop_back();
+                }
+            }
+
             static std::deque<char> _plus(const Integer &first, const Integer &second);
-            static std::deque<char> _minus(const Integer &first, const Integer &second);
+            static std::deque<char> _minus(const Integer &first, const Integer &second, const bool popZeros = true);
             Integer _multy(const Integer &first, const Integer &second);
             Integer abs() const;
         public:
@@ -65,6 +71,7 @@ namespace thoth {
             bool operator==(const Integer &second)  const;
             bool operator!=(const Integer &second)  const;
 
+            std::string toString();
             std::string toString() const;
     };
 };

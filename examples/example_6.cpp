@@ -217,6 +217,7 @@ int main() {
      }
      */
 
+     /*
      {
           thoth::Double a("0.5");
           thoth::Double b("-0.2");
@@ -234,12 +235,82 @@ int main() {
 
           std::cout << c.toString() << "\n";
      }
-    
      {
           thoth::Double a("-100000000000000000000000.0");
           thoth::Double b("0.1");
 
           auto c = a + b;
+
+          std::cout << c.toString() << "\n";
+     }
+
+{
+     thoth::Double a("100000000000000000000000.0");
+     thoth::Double b("-0.1");
+
+     auto c = a - b;
+
+     std::cout << c.toString() << "\n";
+}
+    {
+          thoth::Double a("0.3");
+          thoth::Double b("0.7");
+
+          auto c = a - b;
+
+          std::cout << c.toString() << "\n";
+    }
+
+
+     {
+          thoth::Double a("0.01");
+          thoth::Double b("0.02");
+
+          auto c = a - b;
+
+          std::cout << c.toString();
+     }
+     {
+          thoth::Double a("0000000000000000000.0000");
+
+          std::cout << a.toString();
+     }
+     */
+     /*
+     {
+          thoth::Double a("1000.001");
+          thoth::Double b("0.002");
+
+          auto c = a - b;
+          
+          std::cout << c.toString();
+     }
+*/
+
+     {
+        thoth::Integer a("2");
+        thoth::Integer c = a;
+
+        for(int i = 0; i < 127; ++i) {
+            c = c * a;
+          std::cout << c.toString() << "\n";
+        }
+     }
+
+     {
+          thoth::Integer a("0");
+          thoth::Integer b("2");
+     
+          auto c = a * b;
+
+          std::cout << c.toString() << "\n";
+     }
+
+     {
+          thoth::Integer a("-4894165461654616541616541165416131351651668041861246842244814924");
+          thoth::Integer b("0");
+
+          auto c = a * b;
 
           std::cout << c.toString() << "\n";
      }

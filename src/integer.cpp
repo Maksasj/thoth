@@ -51,7 +51,7 @@ std::deque<char> thoth::Integer::_plus(const Integer &first, const thoth::Intege
     return data;
 };
 
-std::deque<char> thoth::Integer::_minus(const Integer &first, const thoth::Integer &second) {
+std::deque<char> thoth::Integer::_minus(const Integer &first, const thoth::Integer &second, const bool popZeros) {
     std::deque<char> data;
 
     int aLength = first._data.size();
@@ -75,8 +75,10 @@ std::deque<char> thoth::Integer::_minus(const Integer &first, const thoth::Integ
         }
     }
 
-    while ((data.size() > 1) && (data[data.size() - 1] == 0))
-        data.pop_back();
+    if(popZeros) {
+        while ((data.size() > 1) && (data[data.size() - 1] == 0))
+            data.pop_back(); 
+    }
 
     return data;
 };
@@ -181,8 +183,8 @@ thoth::Integer thoth::Integer::operator-(const Integer &second) {
     */
     Integer &self = *this;
 
-    Integer out;
 
+    Integer out;
     if(this->isPositive() && second.isPositive()) {
         Integer selfAbs = self.abs(); 
         Integer secondAbs = second.abs(); 
@@ -224,13 +226,42 @@ thoth::Integer thoth::Integer::operator-(const Integer &second) {
 };
 
 thoth::Integer thoth::Integer::operator*(const Integer &second) {
-    Integer out = _multy(*this, second);
+    Integer out;
+
+    auto self = this->isPositive();
+    auto another = second.isPositive();
+
+    if(self == another) {
+        out = _multy(*this, second);
+    } else { 
+        out = _multy(*this, second);
+        out.sign = false;
+    }
+
+    out.trimZerosBack();
+
+    if(out._data.empty()) {
+        out._data.push_back(0);
+        out.sign = true;        
+    }
 
     return out;
 }
 
 /* Helper methods */
 std::string thoth::Integer::toString() const {
+    std::stringstream ss;
+
+    if(!sign)
+        ss << '-';
+
+    for(int i = _data.size() - 1; i >= 0; --i)
+        ss << (char)(_data[i] + _THOTH_ASCII_SHIFT);
+
+    return ss.str();
+}
+
+std::string thoth::Integer::toString() {
     std::stringstream ss;
 
     if(!sign)

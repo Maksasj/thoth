@@ -8,7 +8,7 @@ namespace thoth {
         private:
             int power;
 
-            void trimZeros() {
+            void trimZerosFront() {
                 if(power == 0) return;
                 
                 while (!_data.empty() && _data.front() == 0) {
@@ -25,12 +25,28 @@ namespace thoth {
                     power = 0;
                 }
             }
+
+            void trimZerosBack() {
+                while (!_data.empty() && _data.back() == 0) {
+
+                    if(_data.size() <= thoth::Math::abs(power) + 1) {
+                        break;
+                    }
+
+                    _data.pop_back();
+                }
+
+                if(_data.empty()) {
+                    _data.push_front(0);
+                    power = 0;
+                }
+            }
         public:
             Double();
             Double(std::string data);
 
             Double operator+(const Double &second);
-            //Integer operator-(const Integer &second);
+            Double operator-(const Double &second);
             //Integer operator*(const Integer &second);
             
             //Integer operator/(const Integer &second);
