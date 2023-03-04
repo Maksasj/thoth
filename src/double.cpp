@@ -141,7 +141,7 @@ thoth::Double thoth::Double::operator+(const Double &second) {
     return out;
 };
 
-thoth::Double thoth::Double::operator-(const Double &second) {
+thoth::Double thoth::Double::operator-(const Double &second) const {
     Double out;
 
     Double self = *this;
@@ -171,9 +171,6 @@ thoth::Double thoth::Double::operator-(const Double &second) {
     if(self.isPositive() && another.isPositive()) {
         Integer selfAbs = self.abs(); 
         Integer anotherAbs = another.abs(); 
-                
-        std::cout << selfAbs.toString() << "\n";
-        std::cout << anotherAbs.toString() << "\n";
 
         if(selfAbs > anotherAbs) {
             out._data = _minus(selfAbs, anotherAbs, false);
@@ -219,7 +216,7 @@ thoth::Double thoth::Double::operator-(const Double &second) {
     return out;
 };
 
-thoth::Double thoth::Double::operator*(const Double &second) {
+thoth::Double thoth::Double::operator*(const Double &second) const {
     Double out;
 
     Double self = *this;
@@ -254,7 +251,38 @@ thoth::Double thoth::Double::operator*(const Double &second) {
     for (auto i = out.len(); i <= thoth::Math::abs<int>(out.power); ++i) {
         out._data.push_back(0);
     }
-    
+
+    out.trimZerosBack();
+    out.trimZerosFront();
+
+    return out;
+};
+
+thoth::Double thoth::Double::findInverse() const {
+    /* Newton raphson method */
+
+    thoth::Double out;
+    const thoth::Double x = *this;
+
+    const unsigned int max_iterations = 10;
+
+    const thoth::Double two("2.0");
+    thoth::Double prev = x;
+
+    prev.power -= 1;
+    prev.expandBack(1);
+
+    for(unsigned int i = 0; i < max_iterations; ++i) {
+        prev = prev * (two - (x * prev));
+    }
+
+    return prev;
+}
+
+thoth::Double thoth::Double::operator/(const Double &second) {
+    Double out = *this;
+
+    out = out * second.findInverse();
 
     return out;
 };

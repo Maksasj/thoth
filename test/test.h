@@ -2,7 +2,6 @@
 #define _THOTH_TEST_
 
 #include "thoth.h"
-#include "arithmetics.h"
 
 #define ensure(EXP) if(!(EXP)) return 1;
 #define TEST_CASE

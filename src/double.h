@@ -41,15 +41,16 @@ namespace thoth {
                     power = 0;
                 }
             }
+
         public:
             Double();
             Double(std::string data);
 
             Double operator+(const Double &second);
-            Double operator-(const Double &second);
-            Double operator*(const Double &second);
-            
-            //Integer operator/(const Integer &second);
+            Double operator-(const Double &second) const;
+            Double operator*(const Double &second) const;
+            Double operator/(const Double &second);
+
             //Integer operator%(const Integer &second);
 
             bool operator<(const Double &second)   const;
@@ -59,6 +60,8 @@ namespace thoth {
             bool operator==(const Double &second)   const;
             bool operator!=(const Double &second)  const;
 
+            Double findInverse() const;
+            
             std::string toString() const;
             std::string toString(bool) const; //no dot
     };
