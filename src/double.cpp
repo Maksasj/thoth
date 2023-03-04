@@ -219,6 +219,46 @@ thoth::Double thoth::Double::operator-(const Double &second) {
     return out;
 };
 
+thoth::Double thoth::Double::operator*(const Double &second) {
+    Double out;
+
+    Double self = *this;
+    Double another = second;
+    
+    int integralPartSelfDigitCount = self.len() + self.power;
+    int integralPartAnotherDigitCount = another.len() + another.power;
+
+    int decimalPartSelfDigitCount = self.len() - integralPartSelfDigitCount;
+    int decimalPartAnotherDigitCount = another.len() - integralPartAnotherDigitCount;
+
+    if(decimalPartSelfDigitCount < decimalPartAnotherDigitCount) {
+        self.expandBack(decimalPartAnotherDigitCount - decimalPartSelfDigitCount);
+    }
+
+    if(decimalPartSelfDigitCount > decimalPartAnotherDigitCount) {
+        another.expandBack(decimalPartSelfDigitCount - decimalPartAnotherDigitCount);
+    }
+
+    if(self.isPositive() == another.isPositive()) {
+    } else { 
+        out.sign = false;
+    }
+
+    if(self.abs() > another.abs()) {
+        out._data = _multy(self, another);
+    } else
+        out._data = _multy(another, self);
+
+    out.power = self.power + another.power;
+
+    for (auto i = out.len(); i <= thoth::Math::abs<int>(out.power); ++i) {
+        out._data.push_back(0);
+    }
+    
+
+    return out;
+};
+
 bool thoth::Double::operator>(const Double &second) const {
     if(!sign) {
         if(second.sign) return false;

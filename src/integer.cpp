@@ -83,7 +83,7 @@ std::deque<char> thoth::Integer::_minus(const Integer &first, const thoth::Integ
     return data;
 };
 
-thoth::Integer thoth::Integer::_multy(const Integer &first, const Integer &second) {
+std::deque<char> thoth::Integer::_multy(const Integer &first, const Integer &second) {
     Integer out;
     out._data.clear();
 
@@ -120,7 +120,7 @@ thoth::Integer thoth::Integer::_multy(const Integer &first, const Integer &secon
         out = out +  tmpInteger;
     }
 
-    return out;
+    return out._data;
 }
 
 /* Operations methods */
@@ -232,9 +232,9 @@ thoth::Integer thoth::Integer::operator*(const Integer &second) {
     auto another = second.isPositive();
 
     if(self == another) {
-        out = _multy(*this, second);
+        out._data = _multy(*this, second);
     } else { 
-        out = _multy(*this, second);
+        out._data = _multy(*this, second);
         out.sign = false;
     }
 

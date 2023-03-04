@@ -47,7 +47,7 @@ namespace thoth {
 
             Double operator+(const Double &second);
             Double operator-(const Double &second);
-            //Integer operator*(const Integer &second);
+            Double operator*(const Double &second);
             
             //Integer operator/(const Integer &second);
             //Integer operator%(const Integer &second);

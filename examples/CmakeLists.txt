@@ -20,3 +20,6 @@ target_link_libraries(example_5 thoth)
 
 add_executable(example_6 example_6.cpp)
 target_link_libraries(example_6 thoth)
+
+add_executable(example_7 example_7.cpp)
+target_link_libraries(example_7 thoth)
