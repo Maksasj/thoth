@@ -291,10 +291,11 @@ int main() {
         thoth::Integer a("2");
         thoth::Integer c = a;
 
-        for(int i = 0; i < 127; ++i) {
+        for(int i = 0; i < 511; ++i) {
             c = c * a;
-          std::cout << c.toString() << "\n";
         }
+
+          std::cout << c.toString() << "\n";
      }
 
      {
@@ -311,6 +312,15 @@ int main() {
           thoth::Integer b("0");
 
           auto c = a * b;
+
+          std::cout << c.toString() << "\n";
+     }
+
+     {
+          thoth::Double a("1.7");
+          thoth::Double b("-2.5");
+     
+          auto c = a + b;
 
           std::cout << c.toString() << "\n";
      }
