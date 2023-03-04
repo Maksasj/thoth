@@ -8,25 +8,25 @@ int main() {
     TEST_CASE {
         Double a("1");
 
-        ensure(a.toString() == "1");
+        ensure(a.toString() == "1.0");
     }
 
     TEST_CASE {
-        Double a("0");
+        Double a("0.0");
 
-        ensure(a.toString() == "0");
+        ensure(a.toString() == "0.0");
     }
 
     TEST_CASE {
         Double a("123");
 
-        ensure(a.toString() == "123");
+        ensure(a.toString() == "123.0");
     }
 
     TEST_CASE {
         Double a("845698542698545698542698542698542696854269854");
 
-        ensure(a.toString() == "845698542698545698542698542698542696854269854");
+        ensure(a.toString() == "845698542698545698542698542698542696854269854.0");
     }
 
     TEST_CASE {
@@ -80,19 +80,19 @@ int main() {
     TEST_CASE {
         Double a("-1");
 
-        ensure(a.toString() == "-1");
+        ensure(a.toString() == "-1.0");
     }
 
     TEST_CASE {
         Double a("-123");
 
-        ensure(a.toString() == "-123");
+        ensure(a.toString() == "-123.0");
     }
 
     TEST_CASE {
         Double a("-845698542698545698542698542698542696854269854");
 
-        ensure(a.toString() == "-845698542698545698542698542698542696854269854");
+        ensure(a.toString() == "-845698542698545698542698542698542696854269854.0");
     }
 
     TEST_CASE {
@@ -141,6 +141,30 @@ int main() {
         Double a("-998.1");
 
         ensure(a.toString() == "-998.1");
+    }
+
+    TEST_CASE {
+        thoth::Double a("1");
+
+        ensure(a.toString() == "1.0");
+    }
+
+    TEST_CASE {
+        thoth::Double a("1.0003");
+
+        ensure(a.toString() == "1.0003");
+    }
+
+    TEST_CASE {
+        thoth::Double a("1.0000");
+
+        ensure(a.toString() == "1.0");
+    }
+
+    TEST_CASE {
+        thoth::Double a("0.0000");
+
+        ensure(a.toString() == "0.0");
     }
 
     return 0;

@@ -22,10 +22,10 @@ thoth::Integer::Integer(std::string data) {
     }
 }
 
-thoth::Integer thoth::Integer::_plus(const Integer &first, const thoth::Integer &second) {
-    Integer out = first;
+std::deque<char> thoth::Integer::_plus(const Integer &first, const thoth::Integer &second) {
+    std::deque<char> data = first._data;
 
-    int aLength = _data.size();
+    int aLength = first._data.size();
     int bLength = second._data.size();
     
     int maxLength = std::max(aLength, bLength);
@@ -37,24 +37,22 @@ thoth::Integer thoth::Integer::_plus(const Integer &first, const thoth::Integer 
         int tmp = aDigit + bDigit + overflow;
 
         if(i < aLength) {
-            out._data[i] = tmp % 10;
+            data[i] = tmp % 10;
         } else {
-            out._data.push_back(tmp % 10);
+            data.push_back(tmp % 10);
         }
 
         overflow = tmp / 10;
     }
 
     if(overflow != 0)
-        out._data.push_back(overflow);
+        data.push_back(overflow);
 
-    return out;
+    return data;
 };
 
-thoth::Integer thoth::Integer::_minus(const Integer &first, const thoth::Integer &second) {
-
-    Integer out;
-    out._data.clear();
+std::deque<char> thoth::Integer::_minus(const Integer &first, const thoth::Integer &second) {
+    std::deque<char> data;
 
     int aLength = first._data.size();
     int bLength = second._data.size();
@@ -70,17 +68,17 @@ thoth::Integer thoth::Integer::_minus(const Integer &first, const thoth::Integer
 
         if(delta < 0) {
             overflow = 1;
-            out._data.push_back(10 + delta);
+            data.push_back(10 + delta);
         } else {
             overflow = 0;
-            out._data.push_back(delta);
+            data.push_back(delta);
         }
     }
 
-    while ((out._data.size() > 1) && (out._data[out._data.size() - 1] == 0))
-        out._data.pop_back();
+    while ((data.size() > 1) && (data[data.size() - 1] == 0))
+        data.pop_back();
 
-    return out;
+    return data;
 };
 
 thoth::Integer thoth::Integer::_multy(const Integer &first, const Integer &second) {
@@ -141,9 +139,9 @@ thoth::Integer thoth::Integer::operator+(const Integer &second) {
     Integer out;
 
     if(this->isPositive() && second.isPositive()) {
-        out = _plus(self, second);
+        out._data = _plus(self, second);
     } else if(!this->isPositive() && !second.isPositive()) {
-        out = _plus(self, second);
+        out._data = _plus(self, second);
         out.sign = false;
     } else if(  (!this->isPositive() && second.isPositive()) ||
                 (this->isPositive() && !second.isPositive())) {
@@ -152,20 +150,20 @@ thoth::Integer thoth::Integer::operator+(const Integer &second) {
             Integer secondAbs = second.abs(); 
             
             if(selfAbs > secondAbs) {
-                out = _minus(selfAbs, secondAbs);
+                out._data = _minus(selfAbs, secondAbs);
                 out.sign = false;
             } else {
-                out = _minus(second, self);
+                out._data = _minus(second, self);
             }
         } else if (second < self){
             Integer selfAbs = self.abs(); 
             Integer secondAbs = second.abs(); 
             
             if(secondAbs > selfAbs) {
-                out = _minus(secondAbs, selfAbs);
+                out._data = _minus(secondAbs, selfAbs);
                 out.sign = false;
             } else 
-                out = _minus(self, second);
+                out._data = _minus(self, second);
         } else {
             return out;
         }
@@ -190,9 +188,9 @@ thoth::Integer thoth::Integer::operator-(const Integer &second) {
         Integer secondAbs = second.abs(); 
 
         if(selfAbs > secondAbs) {
-            out = _minus(selfAbs, secondAbs);
+            out._data = _minus(selfAbs, secondAbs);
         } else if(secondAbs > selfAbs) {
-            out = _minus(secondAbs, selfAbs);
+            out._data = _minus(secondAbs, selfAbs);
             out.sign = false;
         } else {
             return out;
@@ -202,10 +200,10 @@ thoth::Integer thoth::Integer::operator-(const Integer &second) {
         Integer secondAbs = second.abs(); 
 
         if(selfAbs > secondAbs) {
-            out = _minus(selfAbs, secondAbs);
+            out._data = _minus(selfAbs, secondAbs);
             out.sign = false;
         } else if(secondAbs > selfAbs) {
-            out = _minus(secondAbs, selfAbs);
+            out._data = _minus(secondAbs, selfAbs);
         } else {
             return out;
         } 
@@ -213,13 +211,13 @@ thoth::Integer thoth::Integer::operator-(const Integer &second) {
         Integer selfAbs = self.abs(); 
         Integer secondAbs = second.abs(); 
 
-        out = _plus(selfAbs, secondAbs);
+        out._data = _plus(selfAbs, secondAbs);
         out.sign = false;
     } else if(this->isPositive() && !second.isPositive()) {
         Integer selfAbs = self.abs(); 
         Integer secondAbs = second.abs(); 
 
-        out = _plus(selfAbs, secondAbs);
+        out._data = _plus(selfAbs, secondAbs);
     }
 
     return out;

@@ -18,10 +18,10 @@ target_link_libraries(test_op_more_oskar thoth)
 
 enable_testing()
 
-add_test(NAME IntegerOpMoreLess COMMAND $<TARGET_FILE:test_op_more_less>)
-add_test(NAME IntegerOpEqualOrMoreLess COMMAND $<TARGET_FILE:test_op_equal_or_more_less>)
-add_test(NAME IntegerOpEqual COMMAND $<TARGET_FILE:test_op_equal>)
-add_test(NAME IntegerOpNotEqual COMMAND $<TARGET_FILE:test_op_not_equal>)
+add_test(NAME Integer_OpMoreLess COMMAND $<TARGET_FILE:test_op_more_less>)
+add_test(NAME Integer_OpEqualOrMoreLess COMMAND $<TARGET_FILE:test_op_equal_or_more_less>)
+add_test(NAME Integer_OpEqual COMMAND $<TARGET_FILE:test_op_equal>)
+add_test(NAME Integer_OpNotEqual COMMAND $<TARGET_FILE:test_op_not_equal>)
 
-add_test(NAME IntegerOpLessOskar COMMAND $<TARGET_FILE:test_op_less_oskar>)
-add_test(NAME IntegerOpMoreOskar COMMAND $<TARGET_FILE:test_op_more_oskar>)
+add_test(NAME Integer_Oskar_OpMore COMMAND $<TARGET_FILE:test_op_more_oskar>)
+add_test(NAME Integer_Oskar_OpLess COMMAND $<TARGET_FILE:test_op_less_oskar>)

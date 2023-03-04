@@ -1,0 +1,23 @@
+add_executable(test_doble_sum test_doble_sum.cpp)
+target_link_libraries(test_doble_sum thoth)
+
+add_executable(test_doble_integer_sum_big test_doble_integer_sum_big.cpp)
+target_link_libraries(test_doble_integer_sum_big thoth)
+
+add_executable(test_doble_integer_sum test_doble_integer_sum.cpp)
+target_link_libraries(test_doble_integer_sum thoth)
+
+add_executable(test_doble_oskar_sum test_doble_oskar_sum.cpp)
+target_link_libraries(test_doble_oskar_sum thoth)
+
+add_executable(test_double_integer_sum_oskar test_double_integer_sum_oskar.cpp)
+target_link_libraries(test_double_integer_sum_oskar thoth)
+
+enable_testing()
+
+add_test(NAME Double_Sum COMMAND $<TARGET_FILE:test_doble_sum>)
+add_test(NAME Double_IntegerSumBig COMMAND $<TARGET_FILE:test_doble_integer_sum_big>)
+add_test(NAME Double_IntegerSum COMMAND $<TARGET_FILE:test_doble_integer_sum>)
+
+add_test(NAME Double_Oskar_Sum COMMAND $<TARGET_FILE:test_doble_oskar_sum>)
+add_test(NAME Double_Oskar_IntegerSum COMMAND $<TARGET_FILE:test_double_integer_sum_oskar>)

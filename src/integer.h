@@ -40,8 +40,8 @@ namespace thoth {
                 }
             }
 
-            Integer _plus(const Integer &first, const Integer &second);
-            Integer _minus(const Integer &first, const Integer &second);
+            static std::deque<char> _plus(const Integer &first, const Integer &second);
+            static std::deque<char> _minus(const Integer &first, const Integer &second);
             Integer _multy(const Integer &first, const Integer &second);
             Integer abs() const;
         public:

@@ -34,21 +34,119 @@ thoth::Double::Double(std::string data) : thoth::Integer(NULL) {
 std::string thoth::Double::toString() const {
     std::stringstream ss;
 
-    if(!sign)
+    Double self = *this;
+
+    self.trimZeros();
+
+    if(self._data.size() == 1) {
+        if(self._data[0] == 0) {
+            return "0.0";
+        }
+    }
+
+    if(!self.sign)
         ss << '-';
 
-    for(int i = _data.size() - 1; i >= 0; --i) {
-        if(power <= 0) {
-            if(-power == i + 1) {
+    for(int i = self._data.size() - 1; i >= 0; --i) {
+        if(self.power <= 0) {
+            if(-self.power == i + 1) {
             ss << '.';
             }
         }
 
+        ss << (char)(self._data[i] + _THOTH_ASCII_SHIFT);
+    }
+
+    if(self.power == 0) {
+        ss << ".0";
+    }
+
+    return ss.str();
+}
+
+std::string thoth::Double::toString(bool noDot) const {
+    std::stringstream ss;
+
+    for(int i = _data.size() - 1; i >= 0; --i) {
         ss << (char)(_data[i] + _THOTH_ASCII_SHIFT);
     }
 
     return ss.str();
 }
+
+thoth::Double thoth::Double::operator+(const Double &second) {
+    Double out;
+
+    Double self = *this;
+    Double another = second;
+
+    bool inverse = false;
+    if((self.power == false) && (another.power == false)) {
+        inverse = true;
+    }
+
+    int integralPartSelfDigitCount = self.len() + self.power;
+    int integralPartAnotherDigitCount = another.len() + another.power;
+
+    int decimalPartSelfDigitCount = self.len() - integralPartSelfDigitCount;
+    int decimalPartAnotherDigitCount = another.len() - integralPartAnotherDigitCount;
+
+    std::cout << integralPartSelfDigitCount << " " << decimalPartSelfDigitCount << "\n";
+    std::cout << integralPartAnotherDigitCount << " " << decimalPartAnotherDigitCount << "\n";
+
+    if(decimalPartSelfDigitCount < decimalPartAnotherDigitCount) {
+        self.expandFront(decimalPartAnotherDigitCount - decimalPartSelfDigitCount);
+    }
+
+    if(decimalPartSelfDigitCount > decimalPartAnotherDigitCount) {
+        another.expandFront(decimalPartSelfDigitCount - decimalPartAnotherDigitCount);
+    }
+    
+    out.power = std::min(self.power, another.power);
+
+    std::cout << self.toString(true) << "\n";
+    std::cout << another.toString(true) << "\n";
+
+    if(self.isPositive() && another.isPositive()) {
+        out._data = Integer::_plus(self, another);
+    } else if(!self.isPositive() && !another.isPositive()) {
+        out._data = _plus(self, another);
+        out.sign = false;
+    } else if(  (!self.isPositive() && another.isPositive()) ||
+                (self.isPositive() && !another.isPositive())) {
+        if(another > self) {
+            Integer selfAbs = self.abs(); 
+            Integer anotherAbs = another.abs(); 
+            
+            if(selfAbs > anotherAbs) {
+                out._data = _minus(selfAbs, anotherAbs);
+                out.sign = false;
+            } else {
+                out._data = _minus(another, self);
+            }
+        } else if (another < self){
+            Integer selfAbs = self.abs(); 
+            Integer anotherAbs = another.abs(); 
+            
+            if(anotherAbs > selfAbs) {
+                out._data = _minus(anotherAbs, selfAbs);
+                out.sign = false;
+            } else 
+                out._data = _minus(self, another);
+        } else {
+            out.trimZeros();
+            return out;
+        }
+
+        if(out.len() + out.power == 0) {
+            out._data.push_back(0);
+        }
+    }
+
+    std::cout << out.toString(true) << " "<< out.power << " " << out.toString() <<  "\n";
+
+    return out;
+};
 
 bool thoth::Double::operator>(const Double &second) const {
     if(!sign) {

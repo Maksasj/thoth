@@ -3,4 +3,4 @@ target_link_libraries(test_double_parsing thoth)
 
 enable_testing()
 
-add_test(NAME DoubleParsing COMMAND $<TARGET_FILE:test_double_parsing>)
+add_test(NAME Double_Parsing COMMAND $<TARGET_FILE:test_double_parsing>)
