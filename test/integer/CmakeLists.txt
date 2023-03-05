@@ -1,4 +1,5 @@
 add_subdirectory(minus)
 add_subdirectory(sum)
 add_subdirectory(multiplication)
+add_subdirectory(division)
 add_subdirectory(boolean)

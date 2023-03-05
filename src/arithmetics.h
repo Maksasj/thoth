@@ -23,14 +23,14 @@ namespace thoth {
             return number;
         }
 
-        // Only unsigned integer power
-        static inline double upow(double number, unsigned int power) {
-            if(power == 0) return 1.0;
-            if(power == 1) return number;
+        // Only unsigned integer _power
+        static inline double upow(double number, unsigned int _power) {
+            if(_power == 0) return 1.0;
+            if(_power == 1) return number;
 
             double initial = number;
 
-            for(int i = 2; i <= power; ++i) 
+            for(int i = 2; i <= _power; ++i) 
                 number *= initial;
 
             return number;

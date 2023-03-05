@@ -1,12 +1,12 @@
 #include "double.h"
 
 thoth::Double::Double() : thoth::Integer() {
-    power = 0;
+    _power = 0;
 }
 
 thoth::Double::Double(std::string data) : thoth::Integer(NULL) {
     sign = true;
-    power = 0;
+    _power = 0;
 
     if(data[0] == '-')
         sign = false;
@@ -23,7 +23,7 @@ thoth::Double::Double(std::string data) : thoth::Integer(NULL) {
     int tmpPower = 0;
     for(int i = data.size() - 1; i > 0; --i) {
         if(data[i] == '.') {
-            power = tmpPower;
+            _power = tmpPower;
             break;
         } else {
             --tmpPower;
@@ -49,8 +49,8 @@ std::string thoth::Double::toString() const {
         ss << '-';
 
     for(int i = self._data.size() - 1; i >= 0; --i) {
-        if(self.power <= 0) {
-            if(-self.power == i + 1) {
+        if(self._power <= 0) {
+            if(-self._power == i + 1) {
             ss << '.';
             }
         }
@@ -58,7 +58,7 @@ std::string thoth::Double::toString() const {
         ss << (char)(self._data[i] + _THOTH_ASCII_SHIFT);
     }
 
-    if(self.power == 0) {
+    if(self._power == 0) {
         ss << ".0";
     }
 
@@ -75,6 +75,40 @@ std::string thoth::Double::toString(bool noDot) const {
     return ss.str();
 }
 
+void thoth::Double::trimZerosFront() {
+    if(_power == 0) return;
+    
+    while (!_data.empty() && _data.front() == 0) {
+        _data.pop_front();
+        ++_power;
+
+        if(_power == 0) {
+            break;
+        }
+    }
+
+    if(_data.empty()) {
+        _data.push_back(0);
+        _power = 0;
+    }
+}
+
+void thoth::Double::trimZerosBack() {
+    while (!_data.empty() && _data.back() == 0) {
+
+        if(_data.size() <= thoth::Math::abs(_power) + 1) {
+            break;
+        }
+
+        _data.pop_back();
+    }
+
+    if(_data.empty()) {
+        _data.push_front(0);
+        _power = 0;
+    }
+}
+
 thoth::Double thoth::Double::operator+(const Double &second) {
     Double out;
 
@@ -82,12 +116,12 @@ thoth::Double thoth::Double::operator+(const Double &second) {
     Double another = second;
 
     bool inverse = false;
-    if((self.power == false) && (another.power == false)) {
+    if((self._power == false) && (another._power == false)) {
         inverse = true;
     }
 
-    int integralPartSelfDigitCount = self.len() + self.power;
-    int integralPartAnotherDigitCount = another.len() + another.power;
+    int integralPartSelfDigitCount = self.len() + self._power;
+    int integralPartAnotherDigitCount = another.len() + another._power;
 
     int decimalPartSelfDigitCount = self.len() - integralPartSelfDigitCount;
     int decimalPartAnotherDigitCount = another.len() - integralPartAnotherDigitCount;
@@ -100,7 +134,7 @@ thoth::Double thoth::Double::operator+(const Double &second) {
         another.expandFront(decimalPartSelfDigitCount - decimalPartAnotherDigitCount);
     }
     
-    out.power = std::min(self.power, another.power);
+    out._power = std::min(self._power, another._power);
 
     if(self.isPositive() && another.isPositive()) {
         out._data = Integer::_plus(self, another);
@@ -133,7 +167,7 @@ thoth::Double thoth::Double::operator+(const Double &second) {
             return out;
         }
 
-        if(out.len() + out.power == 0) {
+        if(out.len() + out._power == 0) {
             out._data.push_back(0);
         }
     }
@@ -148,12 +182,12 @@ thoth::Double thoth::Double::operator-(const Double &second) const {
     Double another = second;
 
     bool inverse = false;
-    if((self.power == false) && (another.power == false)) {
+    if((self._power == false) && (another._power == false)) {
         inverse = true;
     }
 
-    int integralPartSelfDigitCount = self.len() + self.power;
-    int integralPartAnotherDigitCount = another.len() + another.power;
+    int integralPartSelfDigitCount = self.len() + self._power;
+    int integralPartAnotherDigitCount = another.len() + another._power;
 
     int decimalPartSelfDigitCount = self.len() - integralPartSelfDigitCount;
     int decimalPartAnotherDigitCount = another.len() - integralPartAnotherDigitCount;
@@ -166,7 +200,7 @@ thoth::Double thoth::Double::operator-(const Double &second) const {
         another.expandFront(decimalPartSelfDigitCount - decimalPartAnotherDigitCount);
     }
 
-    out.power = std::min(self.power, another.power);
+    out._power = std::min(self._power, another._power);
 
     if(self.isPositive() && another.isPositive()) {
         Integer selfAbs = self.abs(); 
@@ -181,7 +215,7 @@ thoth::Double thoth::Double::operator-(const Double &second) const {
             return out;
         }
 
-        if(out.len() + out.power == 0) {
+        if(out.len() + out._power == 0) {
             out._data.push_back(0);
         }
     } else if(!self.isPositive() && !another.isPositive()) {
@@ -197,7 +231,7 @@ thoth::Double thoth::Double::operator-(const Double &second) const {
             return out;
         } 
 
-        if(out.len() + out.power == 0) {
+        if(out.len() + out._power == 0) {
             out._data.push_back(0);
         }
     } else if(!self.isPositive() && another.isPositive()) {
@@ -222,8 +256,8 @@ thoth::Double thoth::Double::operator*(const Double &second) const {
     Double self = *this;
     Double another = second;
     
-    int integralPartSelfDigitCount = self.len() + self.power;
-    int integralPartAnotherDigitCount = another.len() + another.power;
+    int integralPartSelfDigitCount = self.len() + self._power;
+    int integralPartAnotherDigitCount = another.len() + another._power;
 
     int decimalPartSelfDigitCount = self.len() - integralPartSelfDigitCount;
     int decimalPartAnotherDigitCount = another.len() - integralPartAnotherDigitCount;
@@ -246,9 +280,9 @@ thoth::Double thoth::Double::operator*(const Double &second) const {
     } else
         out._data = _multy(another, self);
 
-    out.power = self.power + another.power;
+    out._power = self._power + another._power;
 
-    for (auto i = out.len(); i <= thoth::Math::abs<int>(out.power); ++i) {
+    for (auto i = out.len(); i <= thoth::Math::abs<int>(out._power); ++i) {
         out._data.push_back(0);
     }
 
@@ -258,22 +292,49 @@ thoth::Double thoth::Double::operator*(const Double &second) const {
     return out;
 };
 
+bool thoth::Double::closeToOne(thoth::Double value) {
+    static const thoth::Double one("1.0");
+    static const thoth::Double epsilon("0.000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001");
+
+    auto delta = one - value;
+    delta.sign = true;
+
+    return delta < epsilon;
+}
+
 thoth::Double thoth::Double::findInverse() const {
     /* Newton raphson method */
-
-    thoth::Double out;
     const thoth::Double x = *this;
 
-    const unsigned int max_iterations = 10;
+    static const unsigned int max_iterations = 100;
 
-    const thoth::Double two("2.0");
+    static const thoth::Double two("2.0");
+    static const thoth::Double one("1.0");
     thoth::Double prev = x;
+    
+    if(prev < one) {
+        prev._power -= prev._power;
+        prev.expandFront(-x._power);
+    } else {
+        int integralPartSelfDigitCount = prev.len() + prev._power;
 
-    prev.power -= 1;
-    prev.expandBack(1);
+        prev._power = -(integralPartSelfDigitCount * 2 + 1);
+        prev.expandBack(integralPartSelfDigitCount * 2 + 1);
 
+        prev.trimZerosFront();
+    }
+    
     for(unsigned int i = 0; i < max_iterations; ++i) {
-        prev = prev * (two - (x * prev));
+        auto closeOne = (two - (x * prev));
+        closeOne.aproximateTo(-150);
+        prev = prev * closeOne;
+        
+        if(closeToOne(closeOne)) {
+            break;
+        }
+        prev.aproximateTo(-101);
+        
+        prev.sign = true;
     }
 
     return prev;
@@ -281,8 +342,33 @@ thoth::Double thoth::Double::findInverse() const {
 
 thoth::Double thoth::Double::operator/(const Double &second) {
     Double out = *this;
+    Double another = second;
 
-    out = out * second.findInverse();
+    if((another * another).toString() == out.toString()) {
+        return another;
+    }
+
+    if(out.sign == another.sign) {
+        out.sign = true;
+        another.sign = true;
+        
+        out = out * another.findInverse();
+        
+        out.aproximateTo(-101);
+        out.aproximateClose();
+        out.aproximateTo(-100);
+    } else {
+        out.sign = true;
+        another.sign = true;
+
+        out = out * another.findInverse();
+
+        out.aproximateTo(-101);
+        out.aproximateClose();
+        out.aproximateTo(-100);
+
+        out.sign = false;
+    }
 
     return out;
 };
@@ -302,10 +388,10 @@ bool thoth::Double::operator>(const Double &second) const {
     Double self = *this; 
     Double another = second; 
     
-    if(power != second.power) {
+    if(_power != second._power) {
         if(inverse) {
-            int integralPartSelfDigitCount = self.len() + self.power;
-            int integralPartAnotherDigitCount = another.len() + another.power;
+            int integralPartSelfDigitCount = self.len() + self._power;
+            int integralPartAnotherDigitCount = another.len() + another._power;
 
             if(integralPartSelfDigitCount > integralPartAnotherDigitCount) {
                 return false;
@@ -314,12 +400,12 @@ bool thoth::Double::operator>(const Double &second) const {
             }
 
             if(self.len() < another.len()) {
-                if(self.power > another.power) {
+                if(self._power > another._power) {
                     self.expandFront(another.len() - self.len());
                 } else 
                     self.expandBack(another.len() - self.len());
             } else {
-                if(another.power > self.power) {
+                if(another._power > self._power) {
                     another.expandFront(self.len() - another.len());
                 } else
                     another.expandBack(self.len() - another.len());
@@ -328,15 +414,15 @@ bool thoth::Double::operator>(const Double &second) const {
             if(self.len() < another.len()) {
                 self.expandFront(another.len() - self.len());
             } else {
-                if(another.power > self.power) {
+                if(another._power > self._power) {
                     another.expandBack(self.len() - another.len());
                 } else 
                     another.expandFront(self.len() - another.len());
             }
         }
     } else {
-        int integralPartSelfDigitCount = self.len() + self.power;
-        int integralPartAnotherDigitCount = another.len() + another.power;
+        int integralPartSelfDigitCount = self.len() + self._power;
+        int integralPartAnotherDigitCount = another.len() + another._power;
 
         if(integralPartSelfDigitCount > integralPartAnotherDigitCount) {
             return true;
