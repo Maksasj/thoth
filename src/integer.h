@@ -5,9 +5,7 @@
 #include <deque>
 #include <string>
 #include <sstream>
-#include <iostream>
 #include <algorithm>
-#include <iomanip>
 
 #include "arithmetics.h"
 
@@ -22,29 +20,11 @@ namespace thoth {
             // false -> negative 
             bool sign; 
             
-            int len() const {
-                return _data.size();   
-            }
+            int len() const;
 
-            void expandFront(unsigned int howMuch) {
-                while (howMuch > 0) {
-                    _data.push_front(0);
-                    --howMuch;
-                }
-            }
-
-            void expandBack(unsigned int howMuch) {
-                while (howMuch > 0) {
-                    _data.push_back(0);
-                    --howMuch;
-                }
-            }
-
-            void trimZerosBack() {
-                while (!_data.empty() && _data.back() == 0) {
-                    _data.pop_back();
-                }
-            }
+            void expandFront(unsigned int howMuch);
+            void expandBack(unsigned int howMuch);
+            void trimZerosBack();
 
             static std::deque<char> _plus(const Integer &first, const Integer &second);
             static std::deque<char> _minus(const Integer &first, const Integer &second, const bool popZeros = true);

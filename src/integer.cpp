@@ -328,6 +328,30 @@ bool thoth::Integer::operator>(const Integer &second) const {
     return false;
 }
 
+int thoth::Integer::len() const {
+    return _data.size();   
+}
+
+void thoth::Integer::expandFront(unsigned int howMuch) {
+    while (howMuch > 0) {
+        _data.push_front(0);
+        --howMuch;
+    }
+}
+
+void thoth::Integer::expandBack(unsigned int howMuch) {
+    while (howMuch > 0) {
+        _data.push_back(0);
+        --howMuch;
+    }
+}
+
+void thoth::Integer::trimZerosBack() {
+    while (!_data.empty() && _data.back() == 0) {
+        _data.pop_back();
+    }
+}
+
 bool thoth::Integer::operator==(const Integer &second) const {
     if(sign != second.sign) return false;
     if(_data.size() != second._data.size()) return false;

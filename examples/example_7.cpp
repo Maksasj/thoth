@@ -1,4 +1,5 @@
 #include "thoth.h"
+#include <iostream>
 
 int main() {
      {    //1.0

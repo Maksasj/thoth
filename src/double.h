@@ -9,62 +9,35 @@ namespace thoth {
             int _power;
 
             void trimZerosFront();
-                
             void trimZerosBack();
                
-            void aproximateTo(int power) {
-                while (!_data.empty() && _power < power)
-                {
-                    _data.pop_front();
-                    ++_power;
-                }
-
-                if(_data.empty()) {
-                    _data.push_back(0);
-                    _power = 0;
-                }
-            }
-
-            void aproximateClose() {
-                if(_power > -100) return;
-
-                char last = _data.front();
-
-                if(last >= 5) {
-                    Double epsilon("1.0");
-                    epsilon._power = epsilon._power + _power + 1;
-                    epsilon.expandBack(Math::abs<int>(_power + 1));
-                    epsilon.trimZerosFront();
-                    
-                    *this = *this + epsilon;
-                }
-
-                return;
-            }
+            void aproximateTo(int power);
+            void aproximateClose();
 
             static bool closeToOne(Double value);
+
+            Double mod() const;
         public:
             Double();
             Double(std::string data);
 
-            Double operator+(const Double &second);
+            Double operator+(const Double &second) const;
             Double operator-(const Double &second) const;
             Double operator*(const Double &second) const;
-            Double operator/(const Double &second);
+            Double operator/(const Double &second) const;
+            Double operator%(const Double &second) const;
 
-            //Integer operator%(const Integer &second);
-
-            bool operator<(const Double &second)   const;
-            bool operator<=(const Double &second)  const;
+            bool operator<(const Double &second)    const;
+            bool operator<=(const Double &second)   const;
             bool operator>(const Double &second)    const;
-            bool operator>=(const Double &second)  const;
+            bool operator>=(const Double &second)   const;
             bool operator==(const Double &second)   const;
-            bool operator!=(const Double &second)  const;
+            bool operator!=(const Double &second)   const;
 
             Double findInverse() const;
             
             std::string toString() const;
-            std::string toString(bool) const; //no dot
+            //std::string toString(bool) const; debug
     };
 };
 

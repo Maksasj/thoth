@@ -28,7 +28,6 @@ int main() {
         for(double i = 0; i < _THOTH_CONSTANT_PI_ * 2 * 69; i += 0.02) {
             double number = i;
             int circles = number / (_THOTH_CONSTANT_PI_ * 2);
-            std::cout << circles << "\n";
             number -= circles * (_THOTH_CONSTANT_PI_ * 2);
 
             double thothAnsw = Math::sin(number);

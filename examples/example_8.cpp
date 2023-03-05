@@ -1,5 +1,6 @@
 #include "thoth.h"
 #include <chrono>
+#include <iostream>
 
 int main() {
      /*

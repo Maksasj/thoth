@@ -65,6 +65,7 @@ std::string thoth::Double::toString() const {
     return ss.str();
 }
 
+/*
 std::string thoth::Double::toString(bool noDot) const {
     std::stringstream ss;
 
@@ -74,6 +75,7 @@ std::string thoth::Double::toString(bool noDot) const {
 
     return ss.str();
 }
+*/
 
 void thoth::Double::trimZerosFront() {
     if(_power == 0) return;
@@ -109,7 +111,49 @@ void thoth::Double::trimZerosBack() {
     }
 }
 
-thoth::Double thoth::Double::operator+(const Double &second) {
+void thoth::Double::aproximateTo(int power) {
+    while (!_data.empty() && _power < power)
+    {
+        _data.pop_front();
+        ++_power;
+    }
+
+    if(_data.empty()) {
+        _data.push_back(0);
+        _power = 0;
+    }
+}
+
+void thoth::Double::aproximateClose() {
+    if(_power > -100) return;
+
+    char last = _data.front();
+
+    if(last >= 5) {
+        Double epsilon("1.0");
+        epsilon._power = epsilon._power + _power + 1;
+        epsilon.expandBack(Math::abs<int>(_power + 1));
+        epsilon.trimZerosFront();
+        
+        *this = *this + epsilon;
+    }
+
+    return;
+}
+
+thoth::Double thoth::Double::mod() const {
+    Double out = *this;
+
+    for(auto i = out._power; i < 0; ++i) {
+        out._data.pop_front();
+    }
+
+    out._power = 0;
+
+    return out;
+}
+
+thoth::Double thoth::Double::operator+(const Double &second) const {
     Double out;
 
     Double self = *this;
@@ -344,7 +388,19 @@ thoth::Double thoth::Double::findInverse() const {
     return prev;
 }
 
-thoth::Double thoth::Double::operator/(const Double &second) {
+thoth::Double thoth::Double::operator%(const Double &second) const {
+    Double out = *this;
+
+    Double tmp = out / second;
+    out = out - (tmp.mod() * second);
+
+    return out;
+}
+
+thoth::Double thoth::Double::operator/(const Double &second) const {
+    static const Double zero("0.0"); 
+    if(second == zero) throw std::invalid_argument("thoth double division expected non zero delimiter");
+
     Double out = *this;
     Double another = second;
 
@@ -373,6 +429,9 @@ thoth::Double thoth::Double::operator/(const Double &second) {
 
         out.sign = false;
     }
+
+    out.trimZerosFront();
+    out.trimZerosBack();
 
     return out;
 };
