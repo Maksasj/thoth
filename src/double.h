@@ -28,40 +28,18 @@ namespace thoth {
             void aproximateClose() {
                 if(_power > -100) return;
 
-                char digit = *(_data.begin());
-                
-                if(*(_data.begin()) == 9) {
-                    while(true) {
-                        if(_data.begin() + 1 == _data.end()) break;
-                        if(*(_data.begin() + 1) != 9) break;
-                        _data.pop_front();
-                        ++_power;
-                    }
-                    //do {
-                    //    _data.pop_front();
-                    //    ++_power;
-                    //} while(!_data.empty() && *(_data.begin() + 1) == 9);
-                } else {
-                    char last = _data.front();
+                char last = _data.front();
 
-                    if(last >= 5) {
-                        Double epsilon("1.0");
-                        epsilon._power = epsilon._power + _power + 1;
-                        epsilon.expandBack(Math::abs<int>(_power + 1));
-                        epsilon.trimZerosFront();
-                        
-                        *this = *this + epsilon;
-                    }
-
-                    return;
+                if(last >= 5) {
+                    Double epsilon("1.0");
+                    epsilon._power = epsilon._power + _power + 1;
+                    epsilon.expandBack(Math::abs<int>(_power + 1));
+                    epsilon.trimZerosFront();
+                    
+                    *this = *this + epsilon;
                 }
 
-                Double epsilon("1.0");
-                epsilon._power = epsilon._power + _power;
-                epsilon.expandBack(Math::abs<int>(_power));
-                epsilon.trimZerosFront();
-
-                *this = *this + epsilon;
+                return;
             }
 
             static bool closeToOne(Double value);

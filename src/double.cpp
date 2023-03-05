@@ -313,22 +313,26 @@ thoth::Double thoth::Double::findInverse() const {
     thoth::Double prev = x;
     
     if(prev < one) {
-        prev._power -= prev._power;
-        prev.expandFront(-x._power);
+        int integralPartSelfDigitCount = prev.len() + prev._power;
+        int decimalPartSelfDigitCount = prev.len() - integralPartSelfDigitCount;
+
+        int aproximatePower = -(decimalPartSelfDigitCount + integralPartSelfDigitCount) + 1;
+
+        prev._power = aproximatePower;
+        prev.expandFront(-aproximatePower);
     } else {
         int integralPartSelfDigitCount = prev.len() + prev._power;
-
-        prev._power = -(integralPartSelfDigitCount * 2 + 1);
-        prev.expandBack(integralPartSelfDigitCount * 2 + 1);
-
+        int decimalPartSelfDigitCount = prev.len() - integralPartSelfDigitCount;
+        
+        prev._power = -(integralPartSelfDigitCount * 2 + decimalPartSelfDigitCount * 2 - 1);
+        prev.expandBack(integralPartSelfDigitCount * 2 + decimalPartSelfDigitCount * 2 - 1);
         prev.trimZerosFront();
     }
-    
+
     for(unsigned int i = 0; i < max_iterations; ++i) {
         auto closeOne = (two - (x * prev));
         closeOne.aproximateTo(-150);
         prev = prev * closeOne;
-        
         if(closeToOne(closeOne)) {
             break;
         }
